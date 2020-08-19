@@ -20,7 +20,7 @@ camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 16
 
-rawCapture = PiRGBArray(camera, size=(640, 480))
+rawCapture = PiRGBArray(camera, size=camera.resolution)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     image = frame.array
@@ -47,7 +47,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.imshow("mask", mask) #shows the mask
         whitePixels = cv2.countNonZero(mask) #counts the white pixels
         print('Number of white pixels is: %d' %whitePixels) #prints them
-        blackPixels = (640 * 480) - whitePixels
+        blackPixels = camera.resolution[0]*camera.resolution[1] - whitePixels
         print('Number of black pixels is: %d' %blackPixels)
         blackPixels = 0
         whitePixels = 0
