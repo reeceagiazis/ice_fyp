@@ -18,7 +18,7 @@ cv2.createTrackbar("R", "Trackbars", 0, 255, nothing)
 
 camera = PiCamera()
 camera.resolution = (640, 480)
-camera.framerate = 17
+camera.framerate = 16
 
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
