@@ -3,7 +3,8 @@ import numpy as np
 from picamera.array import PiRGBArray
 from picamera import PiCamera 
 #test
-
+#comment
+#newtest
 def nothing(x):    
     pass
  
