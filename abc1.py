@@ -63,7 +63,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     
     key = cv2.waitKey(0)
     if key == ord(' '): #press space to start
-<<<<<<< HEAD
+
 
         whitePixels = cv2.countNonZero(cropped) #counts the white pixels
         #print('Number of white pixels is: %d' %whitePixels) #prints them
@@ -74,7 +74,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             cv2.putText(image,"Ice Detected",(10,250), font, 2,(255,255,255),2,cv2.LINE_AA,0)
             cv2.imshow("frame", image)
        
-=======
         
         cv2.imshow("mask", mask) #shows the mask
         whitePixels = cv2.countNonZero(mask) #counts the white pixels
@@ -83,7 +82,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         print('Number of black pixels is: %d' %blackPixels)
         blackPixels = 0
         whitePixels = 0
->>>>>>> b719ff60f171d61434c3379cdfb22ad7de55bcb8
+
     
     elif key == 27:  #escape key 
         break
