@@ -60,11 +60,19 @@ def iceThreshold():
     icePixelVal = (345 * 718) - baseWhite
     return icePixelVal
 
-def iceTest(iceThreshold,baseThreshold):
+def iceTestEmail(iceThreshold,baseThreshold):
     if (iceThreshold > 1.25*baseThreshold):
         print(' ICE DETECTED')
         cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
-    return
+    
+    
+def iceTest(iceThreshold,baseThreshold):
+    if (iceThreshold > 1.25*baseThreshold):
+        off =1
+        return off
+    else:
+        off =0
+        return off
 
 
 
