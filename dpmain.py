@@ -21,6 +21,7 @@ while(1):
     print('Ice value pixels: %d\n' %iceTest)
     
     if(off ==0):
-        df.iceTest(off,iceTest,base)
-        continue
+        df.iceTest(iceTest,base)
     
+ 
+

@@ -1,6 +1,7 @@
 # import the necessary packages
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+import comms_routine as cr
 import time
 import cv2
 import numpy as np 
@@ -13,7 +14,7 @@ def takeImage():
     camera = PiCamera()
     rawCapture = PiRGBArray(camera)
     # allow the camera to warmup
-    time.sleep(0.1)
+    time.sleep(0.5)
     # grab an image from the camera
     camera.capture(rawCapture, format="bgr")
     image = rawCapture.array
@@ -52,8 +53,6 @@ def getBaseThreshold():
     return base
 
 
-base = getBaseThreshold()
-print('Base value of pixels is: %d\n' %base)
 
 def iceThreshold():
     cropped = thresholds()
@@ -62,25 +61,20 @@ def iceThreshold():
     return icePixelVal
 
 def iceTest(iceThreshold,baseThreshold):
-    if iceThreshold > 1.25*baseThreshold:
+    if (iceThreshold > 1.25*baseThreshold):
         print(' ICE DETECTED')
-        
-    return;
+        cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
+    return
 
 
-time.sleep(5)
 
 # cropped2 = thresholds()
 # cv2.imshow("frame2", cropped2)
 # cv2.waitKey(0)
 
 
-ice = iceThreshold()
-print('Ice Pixels are: %d\n' %ice)
-    
 
 
-iceTest(ice,base)   
         
             
 
