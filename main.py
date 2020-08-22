@@ -27,9 +27,9 @@ class create_windows():
             image = frame.array
             hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-            B = 180
+            B = 95
             G = 0
-            R = 60
+            R = 50
             
             #B = cv2.getTrackbarPos("B", "Trackbars")
             #G = cv2.getTrackbarPos("G", "Trackbars")
@@ -58,6 +58,7 @@ class create_windows():
             if key1 == ord('t'):
                 baseWhite = cv2.countNonZero(cropped)
                 baseBlack = (400 * 475) - baseWhite
+                #cv2.imshow("mask", mask)
                 #print('Base value of pixels is %d\n' %baseBlack) #prints them
                 
             elif key1 == 27:  
@@ -72,10 +73,14 @@ class create_windows():
                 #print('Number of white pixels is: %d' %whitePixels) #prints them
                 blackPixels = (400 * 475) - whitePixels   
                 #print(' # pixels is: %d' %blackPixels) #prints them
-                if blackPixels > 1.1*baseBlack:
+                if blackPixels > 1.25*baseBlack:
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     cv2.putText(image,"Ice Detected",(10,250), font, 2,(255,255,255),2,cv2.LINE_AA,0)
                     cv2.imshow("frame", image)
+                    cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
+                    print(' ICE DETECTED') #prints them
+                    blackPixels=0
+                    
             
             
             elif key == 27:  #escape key 
