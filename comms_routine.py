@@ -21,4 +21,5 @@ class Alert(object):
             except smtplib.SMTPRecipientsRefused:
                 print("Recipient refused: Are you sure " + self.receiver_email + " is the correct address?")
                 
-Alert("r.agiazis@gmail.com", "hey").send_email()
+#Alert("r.agiazis@gmail.com", "Ice has been detected").send_email()
+#Alert("darcy.plant@hotmail.com", "Ice has been detected").send_email()
