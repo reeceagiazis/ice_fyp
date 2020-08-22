@@ -1,6 +1,7 @@
 import cv2
 import numpy as np 
 import comms_routine as cr
+import time
 from picamera.array import PiRGBArray
 from picamera import PiCamera 
 
@@ -68,20 +69,22 @@ class create_windows():
             key = cv2.waitKey(0)
             if key == ord(' '): #press space to start
 
-
+                blackPixels=0   
                 whitePixels = cv2.countNonZero(cropped) #counts the white pixels
                 #print('Number of white pixels is: %d' %whitePixels) #prints them
-                blackPixels = (400 * 475) - whitePixels   
-                #print(' # pixels is: %d' %blackPixels) #prints them
+                #blackPixels = (400 * 475) - whitePixels   
+                print(' # pixels is: %d' %blackPixels) #prints them
+                cv2.imshow("frame", image)
                 if blackPixels > 1.25*baseBlack:
+                    
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     cv2.putText(image,"Ice Detected",(10,250), font, 2,(255,255,255),2,cv2.LINE_AA,0)
-                    cv2.imshow("frame", image)
-                    cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
                     print(' ICE DETECTED') #prints them
-                    blackPixels=0
+                    cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
+                    time.sleep(0.5)
                     
             
+                
             
             elif key == 27:  #escape key 
                 break
