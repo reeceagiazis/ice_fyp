@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import numpy as np 
 import comms_routine as cr
 import time
 from picamera.array import PiRGBArray
@@ -99,5 +99,7 @@ class create_windows():
 
 
 #main loop for script (like c)
+cr.Alert.send_email("r.agiazis@gmail.com", "hey")
+
 create_windows.start_id(640, 480, 15)
 create_windows.close_program()
