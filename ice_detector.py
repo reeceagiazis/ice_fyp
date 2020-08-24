@@ -63,7 +63,7 @@ def iceThreshold():
 def iceTestEmail(iceThreshold,baseThreshold):
     if (iceThreshold > 1.25*baseThreshold):
         print(' ICE DETECTED')
-        cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
+        #cr.Alert("darcy.plant@hotmail.com", "Ice has been detected real").send_email()
     
     
 def iceTest(iceThreshold,baseThreshold):
