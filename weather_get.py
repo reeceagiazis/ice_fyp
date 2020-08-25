@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -6,13 +5,8 @@ import matplotlib.cbook as cbook
 import json
 from api import Api
 import datetime as dt
-from api import Api
 
-api_key = "b5c28d04b9bf4e8f80836b1c1ec446af"
-lat = -36.8658814
-lon = 147.2869802
 
-api = Api(api_key)
 
 class get_weather_forecast(object):
     def __init__(self, latitude, longitude):
@@ -69,6 +63,7 @@ plt.figure()
 plt.plot(hour_plot, temp)
 plt.show()
 
+
 fig, ax = plt.subplots()
 ax.plot('date', 'adj_close', data=temp)
 
@@ -92,3 +87,4 @@ ax.grid(True)
 fig.autofmt_xdate()
 
 plt.savefig('temperature_date.png')
+
