@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import matplotlib.cbook as cbook
 import json
 from api import Api
 import datetime as dt
@@ -59,3 +61,27 @@ for n in range(len(temp)):
 plt.figure()
 plt.plot(hour_plot, temp)
 plt.show()
+
+fig, ax = plt.subplots()
+ax.plot('date', 'adj_close', data=temp)
+
+# format the ticks
+ax.xaxis.set_major_locator(years)
+ax.xaxis.set_major_formatter(years_fmt)
+ax.xaxis.set_minor_locator(months)
+
+# round to nearest years.
+datemin = np.datetime64(hour_plot['date'][0], 'H')
+datemax = np.datetime64(hour_plot['date'][-1], 'H') + np.timedelta64(1, 'H')
+ax.set_xlim(datemin, datemax)
+
+# format the coords message box
+ax.format_xdata = mdates.DateFormatter('%H')
+ax.format_ydata = lambda x: '$%1.2f' % x  # format the price.
+ax.grid(True)
+
+# rotates and right aligns the x labels, and moves the bottom of the
+# axes up to make room for them
+fig.autofmt_xdate()
+
+plt.savefig('temperature_date.png')
