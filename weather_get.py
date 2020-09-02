@@ -53,38 +53,20 @@ curr_weat.queryWeather()
 temp, datetime = curr_weat.parse_weather()
 
 #import date and hour and then use that for x-axis
-hour_current = dt.datetime.now().hour
-hour_plot = []
-
-for n in range(len(temp)):
-    hour_plot.append(hour_current + n)
-
-plt.figure()
-plt.plot(hour_plot, temp)
-plt.show()
 
 
-fig, ax = plt.subplots()
-ax.plot('date', 'adj_close', data=temp)
 
-# format the ticks
-ax.xaxis.set_major_locator(years)
-ax.xaxis.set_major_formatter(years_fmt)
-ax.xaxis.set_minor_locator(months)
+fig = plt.figure()
+ax = fig.add_subplot(111, figsize = (2,5))
+ax.plot(datetime, temp)
+plt.axhline(y=0, color = 'r', linestyle = ':')
+plt.xlabel("Time")
+plt.ylabel("Temperature ($^\circ$C)")
 
-# round to nearest years.
-datemin = np.datetime64(hour_plot['date'][0], 'H')
-datemax = np.datetime64(hour_plot['date'][-1], 'H') + np.timedelta64(1, 'H')
-ax.set_xlim(datemin, datemax)
-
-# format the coords message box
-ax.format_xdata = mdates.DateFormatter('%H')
-ax.format_ydata = lambda x: '$%1.2f' % x  # format the price.
-ax.grid(True)
-
-# rotates and right aligns the x labels, and moves the bottom of the
-# axes up to make room for them
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m -%H:%M'))
 fig.autofmt_xdate()
+
+plt.show()
 
 plt.savefig('temperature_date.png')
 

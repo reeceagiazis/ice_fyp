@@ -164,9 +164,11 @@ class Alert(object):
         a = option.replace(">", " ",)
         b = a.replace("<", " ")
         option = b.split()
+        print(option)
+        print(subject)
 
         #only returns the choice if the subject is choice, else will return 0
-        if search in subject:
+        if subject == search:
             return option[2]
         else:
             print("No choice found in email")
@@ -178,4 +180,4 @@ class Alert(object):
 #Alert("r.agiazis@gmail.com", "Ice has been detected").send_email()
 #Alert("icedetector.alert@gmail.com").send_email_file("image.jpg")
 #Alert("icedetector.alert@gmail.com").read()
-Alert.read_email_choice()
+print(Alert.read_email_choice())
