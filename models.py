@@ -28,7 +28,7 @@ class TimeSeries(UnicodeMixin):
         self.country_code = response['country_code']
         self.state_code = response['state_code']
         self._load_from_points(response['data'])
-
+    
     def _load_from_points(self, points):
         for point in points:
             self.points.append(Point(point))

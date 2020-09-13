@@ -1,29 +1,27 @@
 import numpy as np
+import configparser
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
 import json
-from api import Api
 import datetime as dt
-
+from api import Api
+import config_detector as cf
 
 
 class get_weather_forecast(object):
-    def __init__(self, latitude, longitude):
-        api_key = "b5c28d04b9bf4e8f80836b1c1ec446af"
-        self.lat = latitude
-        self.lon = longitude
-        self.api = Api(api_key)
+    def __init__(self):        
+        #initiate api
+        self.api = Api(cf.api_key)
+
     
     def queryWeather(self):
         #set franulalirty of Api (options: daily, hourly, 3hourly
         self.api.set_granularity('hourly')
         # Query by lat/lon
-        self.forecast = self.api.get_forecast(lat=self.lat, lon=self.lon, units = "M")
-        # To get a daily forecast of temperature, and precipitation:
-        self.forecast_data = self.forecast.get_series(['temp','precip'])
-        print(self.forecast_data)
-    
+        self.forecast = self.api.get_forecast(lat=cf.lat, lon=cf.lon, units = "M")
+        # To get a daily forecast of temperature, and precipitation. snow:
+        self.forecast_data = self.forecast.get_series(['temp','precip','snow_depth','wind_dir','wind_spd'])
 
     def parse_weather(self):
         self.store_list = []
@@ -44,29 +42,28 @@ class get_weather_forecast(object):
             
             self.store_list.append(store_details)
 
-        print(self.store_list)
         return self.temp, self.datetime;
+    
+    def save_data(object):
+        object.queryWeather()
+        # get_weather_forecast.plot()
+        temp, datetime = object.parse_weather()
 
-curr_weat = get_weather_forecast(-36.8658814, 147.2869802)
-curr_weat.queryWeather()
-# get_weather_forecast.plot()
-temp, datetime = curr_weat.parse_weather()
+        #import date and hour and then use that for x-axis
+        now = dt.datetime.now()
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.plot(datetime, temp)
+        plt.axhline(y=0, color = 'r', linestyle = ':')
+        plt.title('Temperature Forecast at ' + cf.location + ' (Device #' + cf.dev + ')')
+        plt.xlabel("Time")
+        plt.ylabel("Temperature ($^\circ$C)")
+        plt.xlim([datetime[0], datetime[-1]])
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m -%H:%M'))
+        fig.autofmt_xdate()
+        save_filename = 'reports/report_' + now.strftime("%d-%m-%Y") + '.jpg'
+        plt.savefig(save_filename)
+        return save_filename
+            
 
-#import date and hour and then use that for x-axis
-
-
-
-fig = plt.figure()
-ax = fig.add_subplot(111, figsize = (2,5))
-ax.plot(datetime, temp)
-plt.axhline(y=0, color = 'r', linestyle = ':')
-plt.xlabel("Time")
-plt.ylabel("Temperature ($^\circ$C)")
-
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m -%H:%M'))
-fig.autofmt_xdate()
-
-plt.show()
-
-plt.savefig('temperature_date.png')
 
