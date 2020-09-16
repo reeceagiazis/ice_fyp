@@ -5,6 +5,7 @@ import comms_routine as cr
 import time
 import cv2
 import numpy as np 
+import config_detector as cf
 
 
 #This funtion turns the pi camera on and takes an image, once the camera has finished

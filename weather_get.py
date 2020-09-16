@@ -1,5 +1,3 @@
-import numpy as np
-import configparser
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
