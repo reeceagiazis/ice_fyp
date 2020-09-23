@@ -28,6 +28,7 @@ def takeImage():
 
 
 
+
 #This fucntions grabs the image taken by the camera and thresholds them based on an
 #(R,G,B) value that is preset. This is then compared, if the values are in the range the
 #pixels are shown. This is then converted to a black and white image based on if a
@@ -108,7 +109,9 @@ def iceTestEmail(iceThreshold,baseThreshold):
     
 def iceTest(iceThreshold,baseThreshold):
     if (iceThreshold > 1.25*baseThreshold):
-        off =1
+        off = 1
+        cf.configParser.set('device_status', 'state', off)
+
         return off
     else:
         off =0

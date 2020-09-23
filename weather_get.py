@@ -59,8 +59,8 @@ class get_weather_forecast(object):
         plt.xlim([datetime[0], datetime[-1]])
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m -%H:%M'))
         fig.autofmt_xdate()
-        save_filename = 'reports/report_' + now.strftime("%d-%m-%Y") + '.jpg'
-        plt.savefig(save_filename)
+        save_filename = 'weather/weather_' + now.strftime("%d-%m-%Y") + '.jpg'
+        plt.savefig(save_filename, figsize = (3.6, 3.6) , dpi = 300 )
         return save_filename
             
 

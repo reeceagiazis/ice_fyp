@@ -19,8 +19,7 @@ while(1):
     
  
         
-        
-    #main for loop,triggers when ice has been detected.
+        #main for loop,triggers when ice has been detected.
     while(off == 0):
         
         #this ensures the basethreshold values aren't re calculated each iternation.
@@ -46,13 +45,23 @@ while(1):
         #off will exit the main while loop is ice is detected.
         ice.iceTestEmail(iceTest,base)
         off = ice.iceTest(iceTest,base)
+        off = cf.configParser.set('device_status', 'state', 0)
         
         #checks for new message INSIDE the loop
-        state_c.sendresponse()  
-    
+        state_c.sendresponse()
+        
+        #reads config file at the start of each iteration to see if an email has asked to turn off
+        off = cf.configParser.get('device_status', 'state')
+        
+        print("OFF: " + str(off) + " INSIDE LOOP")
 
     #checks for emails while detector is OFF here, will alwasy check AFTER starting
-    state_c.sendresponse()  
+    state_c.sendresponse()
+    #checks if off has been toggled by email
+    off = cf.configParser.get('device_status', 'state')
+    print("OFF: " + str(off) + " OUTSIDE LOOP")
+    
+
         
 #code to be executed once loop has been broken
 print("Loop has been broken; program terminated")

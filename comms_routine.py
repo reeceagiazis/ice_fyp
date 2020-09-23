@@ -1,10 +1,13 @@
-import email, smtplib, ssl, imaplib, time
+import email, smtplib, ssl, imaplib, time, cv2
+import numpy as np
 from email import encoders
 from email.header import decode_header
+from picamera import PiCamera
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import weather_get as wg
+import ice_detector as ice
 import config_detector as cf
 import datetime as dt
 
@@ -180,7 +183,7 @@ class Alert(object):
         (retcode, capabilities) = mail.login(cf.sender_email,cf.password)
         mail.list()
         mail.select('inbox')
-        print('mailbox length' + str(len(mail.search(None,'UnSeen')[1][0].split())))
+        print('Unread messages: ' + str(len(mail.search(None,'UnSeen')[1][0].split())))
         
         search = "choice"
         subject, option = Alert(cf.sender_email).read()
@@ -223,43 +226,81 @@ class Alert(object):
         
         #maybe this can be all put in a config file
         if self.option_no == "1":
-            subject = cf.configParser.get('option_1_text', 'subject')
-            text = cf.configParser.get('option_1_text', 'text')
-            html = cf.configParser.get('option_1_text', 'html')
+            #resets the state of the detector (OFF = 0), like a perma on button
+            subject = cf.subject_1
+            text = cf.text_1
+            html = cf.html_1
             
             now = dt.datetime.now()
             format = "%d/%m/%Y %H:%M:%S"
+            
             #format datetime using strftime()
             time1 = now.strftime(format)
             text = str(text) + ' ' + str(time1)
             html = str(html) + ' ' + str(time1) 
             
+            cf.configParser.set('device_status', 'state', 0)
+
+            
+            
         elif self.option_no == "2":
-            subject = "Detector Toggled"
-
-            text =  "Ice detector has been turned off/on;"
-            html = text
+            #toggles the state of the detector off/on
+            subject = cf.subject_2
+            text = cf.text_2
+            html = cf.html_2
             
-            cf.configParser.set('device_status', 'state', 1)
+            #conditional to toggle the states of the detector
+            if cf.configParser.get('device_status', 'state') == 0:
+                cf.configParser.set('device_status', 'state', 1)
+            elif cf.configParser.get('device_status', 'state') == 1:
+                cf.configParser.set('device_status', 'state', 0)
 
-            
             
             
         elif self.option_no == "3":
-            subject = "Detector Status"
+            #compile a photo of current scene, weather report and send them to own email
+            subject = cf.subject_3
+            text = cf.text_3
+            html = cf.html_3
+            
+            #get current time for saving file names
+            now = dt.datetime.now()
+            format = "%d-%m-%Y_%H-%M-%S" 
+            time1 = now.strftime(format) #format datetime using strftime()
+            
+            #save the current weather information
+            curr_weather = wg.get_weather_forecast()
+            weather_plot = curr_weather.save_data()
+            
+            #take picture and return array
+            camera = PiCamera()
+            camera.resolution = (1920, 1080)
+            still = '/home/pi/Desktop/fyp/stills/' + time1 + '.jpg'
+            camera.capture(still)
+            camera.close() #essential
+            
+            #concatenate the newly saved images to be sent
+            output_destination = '/home/pi/Desktop/fyp/reports/report_' + time1 + '.jpg'
+            im1 = cv2.imread(still)
+            im2 = cv2.imread(weather_plot)
+            vis = np.concatenate((im1, im2), axis = 0)
+            cv2.imwrite(output_destination, vis)
+            
+            
+            
 #             #read if the detector is enabled
-#             state = configParser.get('device_status', 'state')
+#             state = cf.configParser.get('device_status', 'state')
 #             if state == "1":
 #                 status_io = "on"
 #             else:
 #                 staus_io = "off"
-            text = "The detector is currently " + status_io
-            html = text
+          #  text = "The detector is currently " + status_io
+            #html = text
             
-        elif self.option_no == "4":
-            subject = "Help List"
-            text =  "Ice detector help functions;"
-            html = text
+        elif self.option_no == "4": #help function
+            subject = cf.subject_4
+            text = cf.text_4
+            html = cf.html_4
         else:
             subject = "ERROR:"
             text = "ERROR"
@@ -289,10 +330,24 @@ class TwoWay(object):
             print("no flag")
             return 0, 0, 0, 0
         
+    def append_device_location_name(self, subject):
+        #split the subject and add in the device name and number if there is text
         
+        if subject == 0:
+            pass
+        else:
+            subject = subject.split('<!>')
+            subject.insert(0, ' (#' + cf.dev + ')')
+            subject.insert(0, cf.location)
+            subject = " ".join(subject)
+        
+        return subject
+    
     def sendresponse(self):
         
         send_confirm, subject, text, html = TwoWay.readloop(self)
+        subject = self.append_device_location_name(subject)
+
                  
         if send_confirm == 1:
             self.mail.send_email_nf(subject, text, html) #change this to a html email with no attach
