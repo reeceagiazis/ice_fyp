@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import matplotlib.cbook as cbook
-import json
 import datetime as dt
 from api import Api
 import config_detector as cf
@@ -19,8 +17,9 @@ class get_weather_forecast(object):
         # Query by lat/lon
         self.forecast = self.api.get_forecast(lat=cf.lat, lon=cf.lon, units = "M")
         # To get a daily forecast of temperature, and precipitation. snow:
-        self.forecast_data = self.forecast.get_series(['temp','precip','snow_depth','wind_dir','wind_spd'])
-
+        self.forecast_data = self.forecast.get_series(['temp','precip','snow_depth','wind_cdir_full','wind_spd','weather','snow6h','precip6h'])
+        return self.forecast_data
+        
     def parse_weather(self):
         self.store_list = []
         self.temp = []
@@ -64,4 +63,6 @@ class get_weather_forecast(object):
         return save_filename
             
 
-
+# weather = get_weather_forecast()
+# info = weather.queryWeather()
+# print(info[0]['temp'])

@@ -118,6 +118,11 @@ class Point(UnicodeMixin):
         self.max_wind_dir = point.get('max_wind_dir')
         self.datetime = self._get_date_from_timestamp(point.get('datetime'))
         self.clouds = point.get('clouds')
+        
+        self.wind_cdir_full = point.get('wind_cdir_full')
+        self.snow6h = point.get('snow6h')
+        self.precip6h = point.get('precip6h')
+
 
     def _get_date_from_timestamp(self, datestamp):
         if ':' in datestamp:

@@ -1,0 +1,54 @@
+<h1 style="color: #5e9ca0; text-align: center;">Ice Detector Information and Help</h1>
+<h2 style="color: #2e6c80; text-align: center;">The purpose of this device is to detect the build up of ice and report it to the users before it becomes significant enough to cause disruptions.</h2>
+<p>&nbsp;</p>
+<p>The ice detector program is run on a Raspberry Pi that uses a connected infrared camera to sense and record the scene. Calculations are performed on the image to measure the intial conditions which are set as base conditions, then any subsequent calculations will compare the scene at the time to these conditions.</p>
+<p>Once the ice buildup has met a predetermined threshold, the detector will be triggered and send an email notify the staff that there is a significant amount of ice accretion. The detector can then be reset or turned off by the users once the ice has been removed, which will then be ready for the next event that triggers it.</p>
+<p>To communicate with the software, a Gmail account has been assigned and configured to each specific device that allows the user to send and receive information pertaining to that specific detector. Information can be received by sending message to the detector, the software will then read the contents of that message and send the appropriate response.</p>
+<p><em><strong>How to send a message</strong></em></p>
+<p>To prevent misuse, only the account assigned to the ice detector can query itself for information. This prevents unwanted uses from unnecessarily reset/altering the devices settings. The subject line must be "choice" for the software to tead the query. Then for the text line, a simple one worded message that describes the main behaviour of the query is typed and the message will then be ready to send.</p>
+<p>Below is a table of the options currently available to send as text.</p>
+<p style="text-align: left;"><span style="color: #ff0000;"><strong>NOTE: The text field is case-sensitive. Type the message as it is shown below.</strong></span></p>
+<table style="height: 201px; width: 592px; border-color: 255;" border = "0.5 px">
+<tbody>
+<tr>
+<td style="width: 90px;"><span style="text-decoration: underline;"><strong>Message</span></td>
+<td style="width: 488x;"><span style="text-decoration: underline;"><strong>Description</span></td>
+</tr>
+<tr>
+<td style="width: 90px;">reset</td>
+<td style="width: 488px;">Reset the base conditions to be compared against and return the state of the ice detector to continue detecting for ice build-up</td>
+</tr>
+<tr>
+<td style="width: 90px;">toggle</td>
+<td style="width: 488px;">Depending on the current state of the detector, the state will be toggled on/off. Used for turning off the program when it is no longer necessary. e.g. warmer months, off-season</td>
+</tr>
+<tr>
+<td style="width: 90px;">report</td>
+<td style="width: 488px;">Compiles data such as weather forecast, current scene of device etc.</td>
+</tr>
+<tr>
+<td style="width: 90px;">help</td>
+<td style="width: 488px;">Sends this document to the user to explain functions and purpose of device.</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Below is an example of an interaction asking the device for the help and information page:</p>
+<table style="width: 592px; border-color: 255;">
+<tbody>
+<tr>
+<td style="width: 500px; text-align: left;" valign="top">
+<p><strong><em>Example Query Request</em></strong></p>
+<p>From: &lt;icedetector.alert@gmail.com&gt;</p>
+<p>To: &lt;icedetector.alert@gmail.com&gt;</p>
+<p>Subject: "choice"</p>
+<p>Message: "help"</p></td>
+<td style="width: 500px; text-align: left;">
+<p><strong><em>Example Query Response</em></strong></p>
+<p>From: &lt;icedetector.alert@gmail.com&gt;</p>
+<p>To: &lt;icedetector.alert@gmail.com&gt;</p>
+<p>Subject: "Falls Creek (#1) information and help requested at 4:34:20 24/09/2020"</p>
+<p>Message: "Ice Detector Information and Help The page..."</p></td></tr>
+</tbody>
+
+

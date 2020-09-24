@@ -14,20 +14,24 @@ off = 0
 mail = cr.Alert(cf.sender_email)
 state_c = cr.TwoWay()
 
+#set the events back to 0 when initialising the program 
+cf.configParser.set('device_status', 'events', 0)
+
 
 while(1):
     
- 
-        
+  
         #main for loop,triggers when ice has been detected.
     while(off == 0):
-        
         #this ensures the basethreshold values aren't re calculated each iternation.
         #the base values are grabbed and printed once.
+        #also take photo to compare with base conditions
         if(run_once == 0):
-            base = ice.getBaseThreshold()
+#           base = ice.getBaseThreshold()
+            base = 0
             print('Base value of pixels is: %d\n' %base)
-            run_once =1
+            run_once = 1
+            ice.takeImageSave('/home/pi/Desktop/fyp/base_cond/base_', 1)
             continue
         
         #function goes to sleep for x seconds, set by hours and minutes
@@ -45,7 +49,7 @@ while(1):
         #off will exit the main while loop is ice is detected.
         ice.iceTestEmail(iceTest,base)
         off = ice.iceTest(iceTest,base)
-        off = cf.configParser.set('device_status', 'state', 0)
+        off = cf.configParser.set('device_status', 'state', off)
         
         #checks for new message INSIDE the loop
         state_c.sendresponse()
@@ -55,7 +59,7 @@ while(1):
         
         print("OFF: " + str(off) + " INSIDE LOOP")
 
-    #checks for emails while detector is OFF here, will alwasy check AFTER starting
+    #checks for emails while detector is OFF here, will always check AFTER starting
     state_c.sendresponse()
     #checks if off has been toggled by email
     off = cf.configParser.get('device_status', 'state')

@@ -6,6 +6,7 @@ import time
 import cv2
 import numpy as np 
 import config_detector as cf
+import datetime as dt
 
 
 #This funtion turns the pi camera on and takes an image, once the camera has finished
@@ -26,8 +27,35 @@ def takeImage():
     camera.close()
     return image
 
+#This funtion turns the pi camera on and takes an image, once the camera has finished
+#taking an image the camera saves the image into an array and returns this array. Once
+#this is done, the camera closes so the function can be recalled without an error.
 
+def takeImageSave(file_path, time):
+    
 
+    camera = PiCamera()
+    #set resolution
+    camera.resolution = (1920, 1080)
+    
+    if time == 1:
+        #gather datetime and format it
+        now = dt.datetime.now()
+        format_subject = "%H-%M-%S_%d-%m-%Y"
+        #format datetime using strftime()
+        time = now.strftime(format_subject)
+        # grab an image from the camera and save to path
+        capture_path = file_path + time + '.jpg'
+        camera.capture(capture_path)
+        #turns off the camera
+        camera.close()
+    else:
+        # grab an image from the camera and save to path
+        camera.capture(file_path)
+        #turns off the camera
+        camera.close()
+        
+    return capture_path
 
 #This fucntions grabs the image taken by the camera and thresholds them based on an
 #(R,G,B) value that is preset. This is then compared, if the values are in the range the
@@ -102,7 +130,11 @@ def iceThreshold():
 def iceTestEmail(iceThreshold,baseThreshold):
     if (iceThreshold > 1.25*baseThreshold):
         print(' ICE DETECTED')
-        #cr.Alert("darcy.plant@hotmail.com").send_email("Ice has been detected real")
+        events = cf.configParser.get('device_status', 'events')
+        cf.configParser.set('device_status', 'events', cf.increment(events))    #increase events as a result of detecting ice
+        print(cf.configParser.get('device_status', 'events'))
+        comms = cr.Alert(cf.sender_email)
+        comms.ice_trigger()
  
 #very similar to iceTestEmail(), except this ensures the email function is only sent once
 #and the program stops.
