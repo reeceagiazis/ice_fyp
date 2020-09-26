@@ -15,25 +15,25 @@ sender_email = configParser.get('device_configuration', 'email_address')
 password = configParser.get('device_configuration', 'pw')
 api_key = configParser.get('device_configuration', 'api_key')
 
-#choice 1
+#choice: reset
 subject_reset = configParser.get('option_reset', 'subject')
 text_reset = configParser.get('option_reset', 'text')
 reset_html = open("html/reset.html", "r")
 html_reset = reset_html.read()
 
-#choice 2
+#choice: toggle
 subject_toggle = configParser.get('option_toggle', 'subject')
 text_toggle = configParser.get('option_toggle', 'text')
 toggle_html = open("html/toggle.html", "r")
 html_toggle = toggle_html.read()
 
-#choice 3
+#choice: report
 subject_report = configParser.get('option_report', 'subject')
 text_report = configParser.get('option_report', 'text')
 report_html = open("html/report.html", "r")
-html_report = reset_html.read()
+html_report = report_html.read()
 
-#choice 4
+#choice: help
 subject_help = configParser.get('option_help', 'subject')
 text_help = configParser.get('option_help', 'text')
 help_html = open("html/help.html", "r")

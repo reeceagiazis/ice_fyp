@@ -1,0 +1,5 @@
+Event recorded at 17:20:04 26/09/2020 with base threshold of 0 and ice threshold of 247710
+Event recorded at 17:20:53 26/09/2020 with base threshold of 0 and ice threshold of 247652
+Event recorded at 17:22:16 26/09/2020 with base threshold of 0 and ice threshold of 247710
+Event recorded at 17:24:53 26/09/2020 with base threshold of 0 and ice threshold of 247705
+Event recorded at 17:40:19 26/09/2020 with base threshold of 0 and ice threshold of 247710

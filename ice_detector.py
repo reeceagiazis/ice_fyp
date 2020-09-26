@@ -133,8 +133,8 @@ def iceTestEmail(iceThreshold,baseThreshold):
         events = cf.configParser.get('device_status', 'events')
         cf.configParser.set('device_status', 'events', cf.increment(events))    #increase events as a result of detecting ice
         print(cf.configParser.get('device_status', 'events'))
-        comms = cr.Alert(cf.sender_email)
-        comms.ice_trigger()
+        comms = cr.Alert(cf.sender_email) 
+        comms.ice_trigger(baseThreshold, iceThreshold)
  
 #very similar to iceTestEmail(), except this ensures the email function is only sent once
 #and the program stops.
