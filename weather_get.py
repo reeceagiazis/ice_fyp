@@ -45,7 +45,7 @@ class get_weather_forecast(object):
         ax.plot(datetime, temp)
         plt.axhline(y=0, color = 'r', linestyle = ':') #plot 0 degree line
         plt.title('Temperature Forecast at ' + cf.location + ' (Device #' + cf.dev + ')') #add title 
-        plt.xlabel("Time day-month-year H:M") #label x axis 
+        plt.xlabel("Time D-M H:M") #label x axis 
         plt.ylabel("Temperature ($^\circ$C)") #label y axis
         plt.xlim([datetime[0], datetime[-1]]) #set limits to that of time data
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m -%H:%M'))

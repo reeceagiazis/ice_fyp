@@ -434,7 +434,7 @@ class TwoWay(object):
         subject = self.append_device_location_name(subject)
         
         #make class for converting html and then convert
-        if html != 0:
+        if html != 0 :
             html_parse = HtmlRead(self.option_no, html)
             html = html_parse.replace()
         

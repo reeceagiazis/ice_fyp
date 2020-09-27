@@ -19,7 +19,7 @@ def takeImage():
     camera = PiCamera()
     rawCapture = PiRGBArray(camera)
     # allow the camera to warmup
-    time.sleep(0.5)
+    time.sleep(2)
     # grab an image from the camera
     camera.capture(rawCapture, format="bgr")
     image = rawCapture.array
@@ -62,7 +62,7 @@ def takeImageSave(file_path, time):
 #pixels are shown. This is then converted to a black and white image based on if a
 #certain RGB value is present (called mask). Once this black and white image has been
 #created, the image is then cropped around the wire, this reduces the error with
-#differnt lighting levels. The cropped image is returned out of the function.
+#different lighting levels. The cropped image is returned out of the function.
 
 
 def thresholds():
@@ -72,9 +72,9 @@ def thresholds():
     #converts image from R,G,B to Hue saturation value.
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     #sets the tresholding values for the comparioson
-    B = 95
+    B = 80
     G = 0
-    R = 50
+    R = 40
     #converts to the required colour threshold to uint8
     blue = np.uint8([[[B, G, R]]])
     hsvBlue = cv2.cvtColor(blue,cv2.COLOR_BGR2HSV)
