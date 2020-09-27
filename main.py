@@ -29,8 +29,8 @@ while(1):
         #the base values are grabbed and printed once.
         #also take photo to compare with base conditions
         if(run_once == 0):
-            base = ice.getBaseThreshold()
-            #base = 0 #for test purposes only
+            #base = ice.getBaseThreshold()
+            base = 0 #for test purposes only
             print('Base value of pixels is: %d\n' %base)
             #capture image of what the base conditions look like
             ice.takeImageSave('/home/pi/Desktop/fyp/base_cond/base_', 1)
@@ -50,7 +50,7 @@ while(1):
         
         #checks for ice, sends emails if present, else reiterates thrugh the loop
         #off will exit the main while loop is ice is detected.
-        ice.iceTestEmail(iceTest,base)
+        ice.iceTestEmail(iceTest,base, mail)
         off = ice.iceTest(iceTest,base)
         off = cf.configParser.set('device_status', 'state', off)
         

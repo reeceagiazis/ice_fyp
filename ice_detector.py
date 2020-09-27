@@ -127,13 +127,12 @@ def iceThreshold():
 #value is greater then 1.25 x the base. The wire has "grown" or ice has been formed.
 #An email is then sent through the comms_routine.py
 
-def iceTestEmail(iceThreshold,baseThreshold):
+def iceTestEmail(iceThreshold,baseThreshold,comms):
     if (iceThreshold > 1.25*baseThreshold):
         print(' ICE DETECTED')
         events = cf.configParser.get('device_status', 'events')
         cf.configParser.set('device_status', 'events', cf.increment(events))    #increase events as a result of detecting ice
         print(cf.configParser.get('device_status', 'events'))
-        comms = cr.Alert(cf.sender_email) 
         comms.ice_trigger(baseThreshold, iceThreshold)
  
 #very similar to iceTestEmail(), except this ensures the email function is only sent once

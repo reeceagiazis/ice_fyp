@@ -23,7 +23,6 @@ class Alert(object):
         
         #instantiate a class wide copy of the current weather data
         self.curr_weather = wg.get_weather_forecast()
-        self.weather_plot = self.curr_weather.save_data()
     
     def send_email_file(self, filename, subject, text_in, html):
         #setting up email format to be send to own device
@@ -351,7 +350,7 @@ class Alert(object):
             #concatenate the newly saved images to be sent
             output_destination = '/home/pi/Desktop/fyp/reports/report_' + time2 + '.jpg'
             im1 = cv2.imread(still)
-            im2 = cv2.imread(self.weather_plot)
+            im2 = cv2.imread(self.curr_weather.save_data())
             vis = np.concatenate((im1, im2), axis = 0)
             cv2.imwrite(output_destination, vis)
             
