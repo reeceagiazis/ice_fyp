@@ -192,16 +192,17 @@ class Alert(object):
             b = a.replace("<", " ")
             option = b.split()
             #only returns the choice if the subject is choice, else will return 0
-
             flag = 1
             return flag, option[2]
         elif subject == "Error: Check the help request is correct":
-                flag = -1
-                print("error found; incorrect type")
-                return flag, 0
+            flag = 0
+            print("error found; incorrect type")
+            return flag, 0
+        elif subject == cf.configParser.get('responses', 'last_response'):
+            print('no new messages; no error or no choice;last response was correct')
+            return -1, 0
         else:
-            print('no new messages; no error or no choice')
-            return 0, 0
+            return 0, 0 
         
 #Ice Trigger
 #If ice is detected, this function is called and the email is sent to the account with some information about the detected ice.
@@ -320,10 +321,10 @@ class Alert(object):
             #conditional to toggle the states of the detector
             if cf.configParser.get('device_status', 'state') == 0:
                 cf.configParser.set('device_status', 'state', 1)
-                toggle_text = " ON "
+                toggle_text = " OFF "
             elif cf.configParser.get('device_status', 'state') == 1:
                 cf.configParser.set('device_status', 'state', 0)
-                toggle_text = " OFF "
+                toggle_text = " ON "
 
             #split and insert state + time into subject
             subject = cf.subject_toggle + ' ' +  time1
@@ -395,10 +396,10 @@ class TwoWay(object):
         print("Flag state: " + str(self.flag))
         print("Requested option: " +  str(self.option_no))
         
-        #an impossible state, used for debugging but happens every once in a while
+        #an imporbable state, used for debugging but happens every once in a while
         if self.flag == -1:
-            print("You shouldn't be here.")
-            return -1, 0, 0, 0
+            print("Received an email outside the scope of the read functions.")
+            return -1, 0, 0, 0, 0
         #normal state; what regularly is entered
         elif self.flag == 1:
             attachment, subject, text, html = self.mail.option_text(self.option_no)
@@ -428,6 +429,7 @@ class TwoWay(object):
         #receive information from inbox
         send_confirm, attachment, subject, text, html = TwoWay.readloop(self)
         
+        print('Send Confirm state: ' + str(send_confirm))
         #append device name to subject
         subject = self.append_device_location_name(subject)
         
@@ -440,14 +442,18 @@ class TwoWay(object):
         if send_confirm == 1:
             self.mail.send_email_file(attachment, subject, text, html)
         #if send_conifrm is not 1, then usually the user entered the wrong request for help.
-        else:
+        elif send_confirm == 0:
+            print('Waiting for new message...')
+        elif send_confirm == -1:
             text = "Check that your intial request for help was in the right format"
             html = text #make a nice looking html for this and store it in the config, can be the help file
             subject = "Error: Check the help request is correct"
             #this coulg also be the same as the ask for help option
             print("Request not possible, try again.")
-            self.mail.send_email_nf(subject, text, html)
-            self.mail.read()
+            self.mail.send_email_file(attachment, subject, text, html)
+
+        cf.configParser.set('responses', 'last_response', subject)
+
           
 #HtmlRead class that reads custom html file for each page and splits by the unique identifier codes, then replaces the identifiers
 #with device information
@@ -499,10 +505,10 @@ class HtmlRead(object):
     def replace_toggle(self):
         a=cf.location
         b="#"+cf.dev
-        c=cf.configParser.get('device_status', 'state')
-        if c == 0:
+        c=str(cf.configParser.get('device_status', 'state'))
+        if c == '0':
             c = "ON"
-        elif c == 1:
+        elif c == '1':
             c = "OFF"
             
         d=self.time

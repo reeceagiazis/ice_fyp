@@ -23,11 +23,21 @@ class get_weather_forecast(object):
     
  #saves a plot of the weather forecast for the next x hrs depending on licence level used   
     def save_data(object):
-        object.queryWeather()
-        # get_weather_forecast.plot()
-        temp
-        datetime = object.parse_weather()
-
+        fc_data = object.queryWeather()
+        store_list = []
+        temp = []
+        datetime = []
+        
+        for item in fc_data:
+            store_details = {"temp":None, "precip":None, "datetime":None}
+            store_details['temp'] = item['temp']
+            temp.append(item['temp'])
+            store_details['precip'] = item['precip'] 
+            store_details['datetime'] = item['datetime']
+            datetime.append(item['datetime'])
+            store_list.append(store_details)
+        
+        
         #import date and hour and then use that for x-axis
         now = dt.datetime.now()
         fig = plt.figure()
