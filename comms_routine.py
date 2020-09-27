@@ -195,12 +195,12 @@ class Alert(object):
             flag = 1
             return flag, option[2]
         elif subject == "Error: Check the help request is correct":
-            flag = 0
+            flag = -1
             print("error found; incorrect type")
             return flag, 0
         elif subject == cf.configParser.get('responses', 'last_response'):
             print('no new messages; no error or no choice;last response was correct')
-            return -1, 0
+            return 0, 0
         else:
             return 0, 0 
         
@@ -599,7 +599,8 @@ class HtmlRead(object):
                 #if line empty; eof reached
                 if not line:
                     break
-                event_html += '<p>' + line + '</p>'
+                event_html += '<p style="text-align: center;">' + line + '</p>'
+                
             self.html = self.html.replace('<table></table>', event_html)
             f.close()
             
