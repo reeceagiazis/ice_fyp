@@ -14,7 +14,7 @@ class get_weather_forecast(object):
     #sets the time resolution of the service and receives a forecast and weather data based on the input coordinates
     def queryWeather(self):
         #set franulalirty of Api (options: daily, hourly, 3hourly
-        self.api.set_granularity('hourly')
+        self.api.set_granularity('daily')
         # Query by lat/lon
         self.forecast = self.api.get_forecast(lat=cf.lat, lon=cf.lon, units = "M")
         # To get a daily forecast of temperature, and precipitation. snow:

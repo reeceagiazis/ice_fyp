@@ -1,6 +1,6 @@
 <h1 style="color: #5e9ca0; text-align: center;">Ice Detector Information and Help</h1>
 <h2 style="color: #2e6c80; text-align: center;">The purpose of this device is to detect the build up of ice and report it to the users before it becomes significant enough to cause disruptions.</h2>
-<p>&nbsp;</p>
+<a href="https://www.raspberrypi.org/documentation/remote-access/vnc/">Detailed guide on setting up remote access into the Raspberry Pi</a>
 <p>The ice detector program is run on a Raspberry Pi that uses a connected infrared camera to sense and record the scene. Calculations are performed on the image to measure the intial conditions which are set as base conditions, then any subsequent calculations will compare the scene at the time to these conditions.</p>
 <p>Once the ice buildup has met a predetermined threshold, the detector will be triggered and send an email notify the staff that there is a significant amount of ice accretion. The detector can then be reset or turned off by the users once the ice has been removed, which will then be ready for the next event that triggers it.</p>
 <p>To communicate with the software, a Gmail account has been assigned and configured to each specific device that allows the user to send and receive information pertaining to that specific detector. Information can be received by sending message to the detector, the software will then read the contents of that message and send the appropriate response.</p>
@@ -50,5 +50,4 @@
 <p>Subject: "Falls Creek (#1) information and help requested at 4:34:20 24/09/2020"</p>
 <p>Message: "Ice Detector Information and Help The page..."</p></td></tr>
 </tbody>
-
 

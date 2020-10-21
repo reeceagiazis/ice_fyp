@@ -20,8 +20,17 @@ lon = configParser.get('device_configuration', 'lon')
 sender_email = configParser.get('device_configuration', 'email_address')
 password = configParser.get('device_configuration', 'pw')
 
+#keyphrase search for device specific search
+search_phrase = configParser.get('device_configuration', 'search_phrase')
+
+#time settings for detector check period
+seconds = configParser.get('time_check', 'seconds')
+minutes = configParser.get('time_check', 'minutes')
+hours = configParser.get('time_check', 'hours')
+
 #weatherbit api
 api_key = configParser.get('device_configuration', 'api_key')
+
 
 #choice: reset
 subject_reset = configParser.get('option_reset', 'subject')

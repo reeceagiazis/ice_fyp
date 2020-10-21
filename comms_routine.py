@@ -181,7 +181,7 @@ class Alert(object):
 #         print('Unread messages: ' + str(len(mail.search(None,'UnSeen')[1][0].split())))
         
         #search is the keyword to be looked for in the subject line
-        search = "request"
+        search = cf.search_phrase
         subject, option = Alert(cf.sender_email).read()
 
         #checks emails first for unread message
@@ -369,9 +369,9 @@ class Alert(object):
 
         else:
             #if none of these options are chosen, then the an error message is produced
-            subject = "<!> ERROR, no choice has been detected"
-            text = "<!> ERROR, no choice has been detected"
-            html = "<!> ERROR, no choice has been detected"
+            subject = "<!> ERROR - no choice has been detected"
+            text = "<!> ERROR - please check that your intial request was in the correct format"
+            html = '<h4 style="text-align: left;"><strong>Please check that your initial request was correct. If you need further instruction, request for help to check the available responses.&nbsp;</strong></h4>'
             attachment = 0
             
         #convert html into text

@@ -74,7 +74,7 @@ def thresholds():
     #sets the tresholding values for the comparioson
     B = 80
     G = 0
-    R = 40
+    R = 25
     #converts to the required colour threshold to uint8
     blue = np.uint8([[[B, G, R]]])
     hsvBlue = cv2.cvtColor(blue,cv2.COLOR_BGR2HSV)
@@ -86,13 +86,15 @@ def thresholds():
     mask = cv2.inRange(hsv, lowerLimit, upperLimit)
     
     #sets the values to crop
-    y=350
+    y=200
     x=1
     w=1000
-    h=700
+    h=800
     
     #crops the image
     cropped = mask[x:w,y:h]
+
+    
     return cropped
 
 # cropped1 = thresholds()
@@ -118,7 +120,7 @@ def getBaseThreshold():
 
 
 def iceThreshold():
-    cropped = thresholds()
+    cropped = thresholds()    
     baseWhite = cv2.countNonZero(cropped)
     icePixelVal = (345 * 718) - baseWhite
     return icePixelVal

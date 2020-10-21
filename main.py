@@ -29,20 +29,25 @@ while(1):
         #the base values are grabbed and printed once.
         #also take photo to compare with base conditions
         if(run_once == 0):
-            #base = ice.getBaseThreshold()
-            base = 0 #for test purposes only
+            base = ice.getBaseThreshold()
+            #base = 0 #for test purposes only
             print('Base value of pixels is: %d\n' %base)
             #capture image of what the base conditions look like
             ice.takeImageSave('/home/pi/Desktop/fyp/base_cond/base_', 1)
             run_once = 1
             continue
         
+        print('entering sleep..')
+        
         #function goes to sleep for x seconds, set by hours and minutes
-        hours = 0
-        minutes = 0 
-        seconds = 1
+        hours = int(cf.hours)
+        minutes = int(cf.minutes)
+        seconds = int(cf.seconds)
+        
         x = 3600*hours + 60*minutes + seconds
         time.sleep(x)
+        print('exiting sleep')
+
         
         #grabs the new threshold value each time.
         iceTest = ice.iceThreshold()
